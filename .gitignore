@@ -1,0 +1,6 @@
+*.class
+*.exe
+html/
+doc/
+latex/
+CVS/
