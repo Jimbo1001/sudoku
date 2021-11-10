@@ -15,6 +15,7 @@ class Board implements ActionListener{
     private int size   = 9;
     private int amt    = 18;
     String gameMode    = "9x9";
+    Sudoku.GameMode mode = Sudoku.GameMode.normalGame;
     Sudoku sudoku;
 
     JFrame frame = new JFrame("Sudoku");
@@ -236,12 +237,14 @@ class Board implements ActionListener{
             settingsScreen.setVisible(true);
         }
         if (e.getSource() == beginButton){
-            sudoku = new Sudoku(size, amt, Sudoku.GameMode.normalGame);
+
+            sudoku = new Sudoku(size, amt, mode);
             gameSetup(size);
             settingsScreen.setVisible(false);
             gameScreen.setVisible(true);
         }
         if (e.getSource() == nineNineButton){
+            mode = Sudoku.GameMode.normalGame;
             size = 9;
             gameMode = "9x9";
             amtText.setText(gameMode + ": " + amt);
@@ -249,6 +252,7 @@ class Board implements ActionListener{
             numbers.setValue(20);
         }
         if (e.getSource() == fourFourButton){
+            mode = Sudoku.GameMode.fourGame;
             size = 4;
             gameMode = "4x4";
             amtText.setText(gameMode + ": " + amt);
@@ -256,6 +260,7 @@ class Board implements ActionListener{
             numbers.setValue(4);
         }
         if (e.getSource() == hyperButton){
+            mode = Sudoku.GameMode.hyperGame;
             size = 9;
             gameMode = "Hyper";
             amtText.setText(gameMode + ": " + amt);
@@ -272,11 +277,12 @@ class Board implements ActionListener{
         }
         if (e.getSource() == giveUpButton){
             //todo
+            sudoku.setPreemtiveSet( sudoku.getGrid(), size);
             sudoku.solve( sudoku.getGrid(), 0, 0, size);
             for (int row = 0; row < size; row++){
             for (int col = 0; col < size; col++){
-                int num = sudoku.getGrid(row, col);
-                gameText[row][col] = new JTextField( num + "" );
+                Integer num = sudoku.getGrid(row, col);
+                gameText[row][col].setText( num.toString() + "" );
             }}
         }
         if (e.getSource() == exitToMainButton){
